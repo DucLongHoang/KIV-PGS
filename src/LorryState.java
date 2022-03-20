@@ -1,0 +1,3 @@
+public enum LorryState {
+    NOT_FULL, FULL, TO_FERRY, ON_FERRY, TO_DESTINATION, IN_DESTINATION;
+}

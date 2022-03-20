@@ -92,7 +92,7 @@ public class Boss {
 
         for(int i = 0; i < WORKER_COUNT; i++) {
             WORKERS[i] = new Worker("Worker" + i,
-                    this, WORKER_TIME);
+                    this, WORKER_TIME, MINE);
             W_THREADS[i] = new Thread(WORKERS[i]);
             W_THREADS[i].start();
             System.out.println("Boss - making " + WORKERS[i].getName());
@@ -139,5 +139,21 @@ public class Boss {
      */
     public int getLorryCount() {
         return LORRY_COUNT;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public int getLorryCap() {
+        return LORRY_CAP;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public int getLorryTime() {
+        return LORRY_TIME;
     }
 }
