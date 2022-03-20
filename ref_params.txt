@@ -1,0 +1,12 @@
+!!!! DULEZITE !!!!
+!Snizte si cas nakladani zdroje na nakladak na 10ms, jinak vam program pobezi vic jak dva dny!
+
+!Parametry:
+!casy v ms
+cWorker=4
+tWorker=50
+tLorry=1000
+capLorry=1000
+capFerry=4
+
+!Ocekavana doba behu s ref_input.txt je cca 45 minut.

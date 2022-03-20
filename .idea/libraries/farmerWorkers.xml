@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="farmerWorkers">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/vlakna/cv04/farmerWorkers.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
