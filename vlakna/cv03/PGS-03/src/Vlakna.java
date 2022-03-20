@@ -1,11 +1,11 @@
 class Vlakno extends Thread {
-	private int cisloVlakna;
-	private int pocetClenu;
+	private final int cisloVlakna;
+	private final int pocetClenu;
 	private double soucet;
 	private int aktualniClen = 0;	
-	private int pocetVlaken;
-	private Bariera bariera;
-	private int synchronizace;
+	private final int pocetVlaken;
+	private final Bariera bariera;
+	private final int synchronizace;
 	
 	Vlakno(int cisloVlakna, int pocetClenu, int pocetVlaken, Bariera bariera, int synchronizace) {
 		this.cisloVlakna = cisloVlakna;
@@ -14,7 +14,6 @@ class Vlakno extends Thread {
 		this.bariera = bariera;
 		this.synchronizace = synchronizace;
 	}
-
 
 	public double getSoucet() {
 		return this.soucet;

@@ -1,16 +1,9 @@
 public class Main {
 
-    private final static String INPUT_FILE = "ref_input.txt";
-
     public static void main(String[] args) {
-
-        System.out.println("Main - running the Big Boss.");
-        Parser parser = new Parser(INPUT_FILE);
-        Boss boss = new Boss();
-
-        boss.planOutWork();
-
-        System.out.println("Main - Fin.");
+        Mine mine = new Mine(args);
+        System.out.println("\nMain - running the Big Boss.");
+        mine.startMiningProject();
+        System.out.println("Main - ending main thread");
     }
-
 }

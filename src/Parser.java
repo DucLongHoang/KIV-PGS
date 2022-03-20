@@ -1,45 +1,98 @@
-import java.io.*;
-import java.util.LinkedList;
-import java.util.List;
-
 /**
- *
+ * Parser class - parses args input and input file
  */
 public class Parser {
-    private int cWorker, tWorker, tLorry, capLorry, capFerry;
-    private final String INPUT_FILE;
-    private final String SPACE = " ";
-    private List<Integer> blocks;
+    private int workerCount, workerTime, lorryCap, lorryTime, ferryCap;
+    private String jarPath, inputFile, outputFile;
 
-    public Parser(String inputFile) {
-        this.INPUT_FILE = inputFile;
+    /**
+     * Constructor for Parser
+     * @param args arguments of application
+     */
+    public Parser(String[] args) {
+        parseArgs(args);
+    }
 
-        try {
-            blocks = readFile(
-                    new BufferedReader(new FileReader(INPUT_FILE)));
-        } catch (IOException e) {
-            e.printStackTrace();
+    /**
+     * Method parses arguments and assigns values to variables
+     * @param args arguments to be parsed
+     */
+    private void parseArgs(String[] args) {
+        for(int i = 1; i < args.length; i+=2){
+            switch(args[i]){
+                case "-jar" -> this.jarPath = args[i + 1];
+                case "-i" -> this.inputFile = args[i + 1];
+                case "-o" -> this.outputFile = args[i + 1];
+                case "-cWorker" -> this.workerCount = Integer.parseInt(args[i + 1]);
+                case "-tWorker" -> this.workerTime = Integer.parseInt(args[i + 1]);
+                case "-capLorry" -> this.lorryCap = Integer.parseInt(args[i + 1]);
+                case "-tLorry" -> this.lorryTime = Integer.parseInt(args[i + 1]);
+                case "-capFerry" -> this.ferryCap = Integer.parseInt(args[i + 1]);
+            }
         }
     }
 
-    public List<Integer> readFile(BufferedReader br) throws IOException {
-        List<Integer> result = new LinkedList<>();
-        String line; String[] tokens;
+    /**
+     * Getter for workerCount
+     * @return number of Workers
+     */
+    public int getWorkerCount() {
+        return workerCount;
+    }
 
-        while((line = br.readLine()) != null){
-            tokens = line.split(SPACE);
-            for(String token: tokens){
-                if(!token.isEmpty()) result.add(token.length());
-            }
-        }
+    /**
+     * Getter for workerTime
+     * @return max time a Worker is working on a block
+     */
+    public int getWorkerTime() {
+        return workerTime;
+    }
 
-        System.out.println("Boss -  closing file.");
-        try {
-            br.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    /**
+     * Getter for lorryCap
+     * @return capacity of a Lorry
+     */
+    public int getLorryCap() {
+        return lorryCap;
+    }
 
-        return result;
+    /**
+     * Getter for lorryTime
+     * @return time it takes a Lorry to get to the Ferry
+     */
+    public int getLorryTime() {
+        return lorryTime;
+    }
+
+    /**
+     * Getter for ferryCap
+     * @return number of Lorries a Ferry can transport
+     */
+    public int getFerryCap() {
+        return ferryCap;
+    }
+
+    /**
+     * Getter for jarPath
+     * @return path to the .jar file
+     */
+    public String getJarPath() {
+        return jarPath;
+    }
+
+    /**
+     * Getter for inputFile
+     * @return path to input map
+     */
+    public String getInputFile() {
+        return inputFile;
+    }
+
+    /**
+     * Getter for outputFile
+     * @return path where to write the output
+     */
+    public String getOutputFile() {
+        return outputFile;
     }
 }

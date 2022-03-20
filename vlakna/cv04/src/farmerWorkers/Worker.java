@@ -33,10 +33,10 @@ public class Worker extends Thread {
 
         System.out.println(jmeno + " - Zacinam makat.");
 
-        while ((joke = farmer.getJoke(jmeno)).equals("$$skonci$$") == false) {
+        while (!(joke = farmer.getJoke(jmeno)).equals("$$skonci$$")) {
             System.out.println("Dostal jsem praci.");
 
-            results = new TreeSet<WordRecord>(new WRComparer());
+            results = new TreeSet<>(new WRComparer());
 
             String[] words = joke.split("[^A-Za-z0-9]+");
 
