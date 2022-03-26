@@ -1,0 +1,110 @@
+Mine analysis:
+	Total number of blocks to be mined: 5
+	Total number of resources to be mined: 38
+
+Main - starting main thread.
+Boss - making Workers
+Boss - making Worker0
+Boss - making Worker1
+Worker0 - asking for work
+Boss - making Worker2
+Worker1 - asking for work
+Boss - waiting for Workers to end
+Worker2 - asking for work
+Worker2 - mining 2 resources
+Worker0 - mining 13 resources
+Worker1 - mining 13 resources
+Worker2 - adding one resource to Lorry0
+Worker2 - adding one resource to Lorry0
+Worker2 - asking for work
+Worker2 - mining 8 resources
+Worker2 - adding one resource to Lorry0
+Worker1 - adding one resource to Lorry0
+Worker2 - adding one resource to Lorry0
+Worker2 - adding one resource to Lorry0
+Worker1 - adding one resource to Lorry0
+Worker1 - adding one resource to Lorry0
+Worker2 - adding one resource to Lorry0
+Worker1 - adding one resource to Lorry0
+Worker1 - Lorry0 is full. Sending it to the Ferry
+LorryBoss - changing Lorry for all Workers
+Worker1 - adding one resource to Lorry1
+LorryBoss - changing Lorry for all Workers
+Worker2 - adding one resource to Lorry1
+Lorry0 - going to the Ferry
+Worker2 - adding one resource to Lorry1
+Worker1 - adding one resource to Lorry1
+Worker2 - adding one resource to Lorry1
+Worker1 - adding one resource to Lorry1
+Worker1 - adding one resource to Lorry1
+Worker2 - adding one resource to Lorry1
+Worker2 - asking for work
+Worker2 - mining 2 resources
+Worker1 - adding one resource to Lorry1
+Lorry0 - on Ferry
+Worker1 - adding one resource to Lorry1
+Worker1 - Lorry1 is full. Sending it to the Ferry
+LorryBoss - changing Lorry for all Workers
+Worker1 - adding one resource to Lorry2
+Lorry1 - going to the Ferry
+Worker1 - adding one resource to Lorry2
+Worker1 - adding one resource to Lorry2
+Worker2 - adding one resource to Lorry2
+Worker1 - adding one resource to Lorry2
+Worker0 - adding one resource to Lorry2
+Worker2 - adding one resource to Lorry2
+Worker1 - adding one resource to Lorry2
+Worker0 - adding one resource to Lorry2
+Worker2 - asking for work
+Worker2 - there is no more work
+Worker2 - finishing. Total resources mined: 12
+Worker1 - asking for work
+Worker1 - there is no more work
+Worker1 - finishing. Total resources mined: 13
+Worker0 - adding one resource to Lorry2
+Worker0 - Lorry2 is full. Sending it to the Ferry
+LorryBoss - changing Lorry for all Workers
+Worker0 - adding one resource to Lorry3
+Lorry2 - going to the Ferry
+Worker0 - adding one resource to Lorry3
+Worker0 - adding one resource to Lorry3
+Worker0 - adding one resource to Lorry3
+Worker0 - adding one resource to Lorry3
+Worker0 - adding one resource to Lorry3
+Worker0 - adding one resource to Lorry3
+Worker0 - adding one resource to Lorry3
+Worker0 - adding one resource to Lorry3
+Worker0 - adding one resource to Lorry3
+Worker0 - Lorry3 is full. Sending it to the Ferry
+LorryBoss - changing Lorry for all Workers
+LorryBoss - no more Lorries to give out
+LorryBoss - no more Lorries to give out
+LorryBoss - no more Lorries to give out
+Lorry3 - going to the Ferry
+	Worker0 - ending job
+	Worker1 - ending job
+	Worker2 - ending job
+Boss - printing result
+LorryBoss - waiting for Lorries to end
+Exception in thread "Thread-4" java.lang.NullPointerException: Cannot invoke "Lorry.fillLorry(String)" because "this.lorry" is null
+	at Worker.run(Worker.java:55)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+Lorry3 - on Ferry
+Lorry1 - on Ferry
+Lorry2 - on Ferry
+Ferry - starting voyage 0
+Lorry0 - going to the destination
+Lorry1 - going to the destination
+Lorry2 - going to the destination
+Lorry3 - going to the destination
+Lorry1 - arrived in destination
+Lorry2 - arrived in destination
+Lorry0 - arrived in destination
+	Lorry0 - ending job
+	Lorry1 - ending job
+	Lorry2 - ending job
+Lorry3 - arrived in destination
+	Lorry3 - ending job
+Total resources transported is: 40
+Main - ending main thread
+

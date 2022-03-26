@@ -1,53 +1,42 @@
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * Mine class
+ * Mine class - holds references for Boss and LorryBoss objects
+ * @author Long
+ * @version 1.0
  */
 public class Mine {
     private final Boss BOSS;
-    private List<Thread> L_THREADS;
-    private List<Lorry> LORRIES;
+    private final LorryBoss LORRYBOSS;
 
     /**
-     *
-     * @param args
+     * Constructor for Mine
+     * @param args arguments from command line
      */
     public Mine(String[] args) {
         this.BOSS = new Boss(new Parser(args), this);
-        this.L_THREADS = new ArrayList<>(BOSS.getLorryCount());
-        this.LORRIES = new ArrayList<>(BOSS.getLorryCount());
-
-        for(int i = 0; i < BOSS.getLorryCount(); i++) {
-            LORRIES.add(new Lorry("Lorry" + i, BOSS.getLorryCap(), BOSS.getLorryTime()));
-            L_THREADS.add(new Thread(LORRIES.get(i)));
-        }
+        this.LORRYBOSS = new LorryBoss(this);
     }
 
     /**
-     *
+     * Method makes Boss plan out and execute the mining project
      */
-    public void startMiningProject() {
+    public void executeSpecialMiningOperation() {
         BOSS.planOutWork();
+        LORRYBOSS.wrapUpWork();
     }
 
     /**
-     *
-     * @param workerName
-     * @return
+     * Getter for BOSS
+     * @return Boss of the Mine
      */
-    public synchronized Lorry getLorry(String workerName) {
-        for(Lorry lorry: LORRIES) {
-            if (lorry.getLorryState() == LorryState.NOT_FULL) {
-                return lorry;
-            }
-        }
-
-        return null;
+    public Boss getBoss() {
+        return BOSS;
     }
 
-    public synchronized void startLorry(String workerName) {
-
+    /**
+     * Getter for LORRYBOSS
+     * @return LorryBoss of the Mine
+     */
+    public LorryBoss getLorryBoss() {
+        return LORRYBOSS;
     }
-
 }

@@ -6,6 +6,8 @@ import java.util.List;
 
 /**
  * Boss class - delegates mining work to Worker class
+ * @author Long
+ * @version 1.0
  */
 public class Boss {
     private final int WORKER_COUNT, WORKER_TIME, LORRY_COUNT,
@@ -39,7 +41,7 @@ public class Boss {
         this.W_THREADS = new Thread[WORKER_COUNT];
         this.WORKERS = new Worker[WORKER_COUNT];
 
-        this.LORRY_COUNT = (miningBlocks.stream().mapToInt(e -> e).sum() / LORRY_CAP) + 1;
+        this.LORRY_COUNT = (miningBlocks.stream().mapToInt(e -> e).sum() / LORRY_CAP);
         this.MINE = mine;
 
         printMineAnalysis();
@@ -49,14 +51,14 @@ public class Boss {
      * Method for the Boss to read from the input file
      * @param br BufferedReader that reads from file
      * @return List of individual mining block sizes
-     * @throws IOException exception to be thrown
+     * @throws IOException exception if file not found
      */
-    public List<Integer> readMap(BufferedReader br) throws IOException {
+    private List<Integer> readMap(BufferedReader br) throws IOException {
         List<Integer> result = new LinkedList<>();
         String[] tokens;
         String line;
 
-        System.out.println("Boss - reading file.");
+//        System.out.println("Boss - reading file.");
         while(( line = br.readLine() ) != null){
             tokens = line.split(SPACE);
             for(String token: tokens) result.add(token.length());
@@ -64,7 +66,7 @@ public class Boss {
         result.removeIf(e -> e == 0);
 
         try {
-            System.out.println("Boss - closing file");
+//            System.out.println("Boss - closing file");
             br.close();
         }
         catch (IOException e) {
@@ -80,8 +82,9 @@ public class Boss {
     private void printMineAnalysis() {
         int numOfBlocks = miningBlocks.size();
         int numOfResources = miningBlocks.stream().mapToInt(e -> e).sum();
-        System.out.println("Total number of blocks to be mined: " + numOfBlocks);
-        System.out.println("Total number of resources to be mined: " + numOfResources);
+        System.out.println("Mine analysis:");
+        System.out.println("\tTotal number of blocks to be mined: " + numOfBlocks);
+        System.out.println("\tTotal number of resources to be mined: " + numOfResources);
     }
 
     /**
@@ -89,13 +92,15 @@ public class Boss {
      */
     public void planOutWork() {
         System.out.println("Boss - making Workers");
-
+        Lorry tmp;
         for(int i = 0; i < WORKER_COUNT; i++) {
-            WORKERS[i] = new Worker("Worker" + i,
-                    this, WORKER_TIME, MINE);
+            WORKERS[i] = new Worker("Worker" + i, WORKER_TIME, MINE);
+            tmp = MINE.getLorryBoss().getLorry();
+            WORKERS[i].setLorry(tmp);
+
             W_THREADS[i] = new Thread(WORKERS[i]);
-            W_THREADS[i].start();
             System.out.println("Boss - making " + WORKERS[i].getName());
+            W_THREADS[i].start();
         }
 
         System.out.println("Boss - waiting for Workers to end");
@@ -142,18 +147,34 @@ public class Boss {
     }
 
     /**
-     *
-     * @return
+     * Getter for LORRY_CAP
+     * @return max capacity of each and every Lorry
      */
     public int getLorryCap() {
         return LORRY_CAP;
     }
 
     /**
-     *
-     * @return
+     * Getter for LORRY_TIME
+     * @return max time it can take a Lorry to transport
      */
     public int getLorryTime() {
         return LORRY_TIME;
+    }
+
+    /**
+     * Getter for FERRY_CAP
+     * @return max Lorry capacity of a Ferry
+     */
+    public int getFerryCap() {
+        return FERRY_CAP;
+    }
+
+    /**
+     * Getter for WORKERS
+     * @return array of all Workers
+     */
+    public Worker[] getWorkers() {
+        return WORKERS;
     }
 }

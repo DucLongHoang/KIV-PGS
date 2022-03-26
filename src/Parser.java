@@ -11,6 +11,7 @@ public class Parser {
      */
     public Parser(String[] args) {
         parseArgs(args);
+        printArgs();
     }
 
     /**
@@ -30,6 +31,20 @@ public class Parser {
                 case "-capFerry" -> this.ferryCap = Integer.parseInt(args[i + 1]);
             }
         }
+    }
+
+    public void printArgs() {
+        StringBuilder sb = new StringBuilder("Input parameters:");
+        sb.append("\n\t-jar = ").append(this.jarPath);
+        sb.append("\n\t-i = ").append(this.inputFile);
+        sb.append("\n\t-o = ").append(this.outputFile);
+        sb.append("\n\t-cWorker = ").append(this.workerCount);
+        sb.append("\n\t-tWorker = ").append(this.workerTime);
+        sb.append("\n\t-capLorry = ").append(this.lorryCap);
+        sb.append("\n\t-tLorry = ").append(this.lorryTime);
+        sb.append("\n\t-capFerry = ").append(this.ferryCap);
+        sb.append('\n');
+        System.out.println(sb);
     }
 
     /**

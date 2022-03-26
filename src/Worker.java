@@ -3,66 +3,67 @@ import java.util.Random;
 /**
  * Worker class - worker that is mining resources.
  * After a block is mined, loads resources onto a Lorry. Once full, send it to the Ferry.
+ * @author Long
+ * @version 1.0
  */
 public class Worker implements Runnable{
-    private final Random R;
     private final String NAME;
-    private final Boss BOSS;
-    private final int SPEED;
     private final Mine MINE;
+    private final Random R;
+    private final int SPEED;
+    private Lorry lorry;
+    private int resources;
 
     /**
      * Constructor for Worker
      * @param name name of Worker
-     * @param boss Boss of Worker
      * @param speed max speed of mining one resource
+     * @param mine Mine the Worker works at
      */
-    public Worker(String name, Boss boss, int speed, Mine mine) {
+    public Worker(String name, int speed, Mine mine) {
         this.R = new Random();
         this.NAME = name;
-        this.BOSS = boss;
         this.SPEED = speed;
         this.MINE = mine;
+        this.resources = 0;
     }
-
     /**
      *
      */
     @Override
     public void run() {
-        int work, resources = 0;
-        Lorry tmpLorry;
+        int work, workingTime;
+        while(( work = MINE.getBoss().getWork(this.NAME) ) != 0) {
 
-        System.out.println(NAME + " - starting to work");
-        while(( work = BOSS.getWork(this.NAME) ) != 0) {
+            /* --- Start mining --- */
             System.out.println(NAME + " - mining " + work + " resources");
-            for (int i = 0; i < work; i++) {
+            for (int i = 0; i < work; i++, resources++) {
                 try {
-                    int workingTime = R.nextInt(SPEED);
+                    workingTime = R.nextInt(SPEED);
                     Thread.sleep(workingTime);
 //                    System.out.println("\t" + NAME + " - mining time: " + workingTime);
                 }
                 catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                resources++;
             }
+            /* --- End mining --- */
 
-            tmpLorry = MINE.getLorry(NAME);
+
+            /* --- Start filling Lorry --- */
             while(work > 0) {
-                if(!tmpLorry.fillLorry(NAME)) {
-                    tmpLorry = MINE.getLorry(NAME);
+                while(lorry != null && !lorry.fillLorry(NAME)) {
+
                 }
-                else {
-                    try {
-                        Thread.sleep(10);     // Loading one resource on Lorry takes 1s
-                    }
-                    catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                try {
                     work--;
+                    Thread.sleep(10);     // Loading one resource on Lorry takes 1s
+                }
+                catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
+            /* --- End filling Lorry --- */
 
         }
         System.out.println(NAME + " - finishing. Total resources mined: " + resources);
@@ -77,10 +78,10 @@ public class Worker implements Runnable{
     }
 
     /**
-     * Getter for BOSS
-     * @return Boss of this Worker
+     * Setter for Lorry
+     * @param lorry Lorry the Worker will bring resources to
      */
-    public Boss getBoss() {
-        return BOSS;
+    public void setLorry(Lorry lorry) {
+        this.lorry = lorry;
     }
 }
