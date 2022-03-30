@@ -4,7 +4,9 @@
  * @version 1.0
  */
 public class Mine {
+    /** Boss of the Mine*/
     private final Boss BOSS;
+    /** LorryBoss of the Mine */
     private final LorryBoss LORRYBOSS;
 
     /**

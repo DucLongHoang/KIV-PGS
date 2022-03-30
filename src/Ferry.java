@@ -4,8 +4,11 @@
  * @version 1.0
  */
 public class Ferry {
+    /** Capacity for Lorries */
     private final int CAPACITY;
+    /** A counter for Lorry and number of voyages */
     private int lorryCounter, voyageCounter;
+    /** Boolean so that synchronization works as intended */
     private boolean wait;
 
     /**
@@ -21,6 +24,7 @@ public class Ferry {
 
     /**
      * Method makes Lorries wait until the Ferry is full
+     * Code taken from a class
      */
     public synchronized void synchronize() {
         while(!wait) {

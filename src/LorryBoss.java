@@ -7,11 +7,17 @@ import java.util.List;
  * @version 1.0
  */
 public class LorryBoss {
+    /** Mine the LorryBoss is in */
     private final Mine MINE;
+    /** Ferry where the Lorries are sent to */
     private final Ferry FERRY;
+    /** Threads that run the Lorries */
     private final List<Thread> L_THREADS;
+    /** List of all Lorries used */
     private final List<Lorry> LORRIES;
+    /** Max capacity and max time of Lorries */
     private final int LORRY_CAP, LORRY_TIME;
+    /** Counter for Lorries and at the same time index to retrieve a Lorry */
     private int lorryCounter;
 
     /**
@@ -44,6 +50,7 @@ public class LorryBoss {
     /**
      * Critical section of app!
      * Method starts the Lorry and sends it to the Ferry
+     * @param prepareNewLorry boolean to prepare a new Lorry or not
      */
     private synchronized void startLorry(boolean prepareNewLorry) {
         L_THREADS.get(lorryCounter).start();
@@ -69,7 +76,8 @@ public class LorryBoss {
      */
     public void wrapUpWork() {
         System.out.println("LorryBoss - waiting for Lorries to end");
-        this.startLorry(false);
+        this.startLorry(false);     // forcing last Lorry to start even if not full
+
         for (int i = 0; i < lorryCounter; i++) {
             try {
                 L_THREADS.get(i).join();

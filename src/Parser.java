@@ -2,7 +2,9 @@
  * Parser class - parses args input and input file
  */
 public class Parser {
+    /** Values to be parsed and saved from command line arguments */
     private int workerCount, workerTime, lorryCap, lorryTime, ferryCap;
+    /** Paths to the JAR file, input and output files */
     private String jarPath, inputFile, outputFile;
 
     /**
@@ -20,31 +22,34 @@ public class Parser {
      */
     private void parseArgs(String[] args) {
         for(int i = 1; i < args.length; i+=2){
-            switch(args[i]){
-                case "-jar" -> this.jarPath = args[i + 1];
-                case "-i" -> this.inputFile = args[i + 1];
-                case "-o" -> this.outputFile = args[i + 1];
-                case "-cWorker" -> this.workerCount = Integer.parseInt(args[i + 1]);
-                case "-tWorker" -> this.workerTime = Integer.parseInt(args[i + 1]);
-                case "-capLorry" -> this.lorryCap = Integer.parseInt(args[i + 1]);
-                case "-tLorry" -> this.lorryTime = Integer.parseInt(args[i + 1]);
-                case "-capFerry" -> this.ferryCap = Integer.parseInt(args[i + 1]);
+            switch(args[i].substring(1)){
+                case "jar" -> this.jarPath = args[i + 1];
+                case "i" -> this.inputFile = args[i + 1];
+                case "o" -> this.outputFile = args[i + 1];
+                case "cWorker" -> this.workerCount = Integer.parseInt(args[i + 1]);
+                case "tWorker" -> this.workerTime = Integer.parseInt(args[i + 1]);
+                case "capLorry" -> this.lorryCap = Integer.parseInt(args[i + 1]);
+                case "tLorry" -> this.lorryTime = Integer.parseInt(args[i + 1]);
+                case "capFerry" -> this.ferryCap = Integer.parseInt(args[i + 1]);
             }
         }
     }
 
+    /**
+     * Method prints command line parameters
+     */
     public void printArgs() {
-        StringBuilder sb = new StringBuilder("Input parameters:");
-        sb.append("\n\t-jar = ").append(this.jarPath);
-        sb.append("\n\t-i = ").append(this.inputFile);
-        sb.append("\n\t-o = ").append(this.outputFile);
-        sb.append("\n\t-cWorker = ").append(this.workerCount);
-        sb.append("\n\t-tWorker = ").append(this.workerTime);
-        sb.append("\n\t-capLorry = ").append(this.lorryCap);
-        sb.append("\n\t-tLorry = ").append(this.lorryTime);
-        sb.append("\n\t-capFerry = ").append(this.ferryCap);
-        sb.append('\n');
-        System.out.println(sb);
+        String s = "Input parameters:" +
+                "\n\t-jar = " + this.jarPath +
+                "\n\t-i = " + this.inputFile +
+                "\n\t-o = " + this.outputFile +
+                "\n\t-cWorker = " + this.workerCount +
+                "\n\t-tWorker = " + this.workerTime +
+                "\n\t-capLorry = " + this.lorryCap +
+                "\n\t-tLorry = " + this.lorryTime +
+                "\n\t-capFerry = " + this.ferryCap +
+                '\n';
+        System.out.println(s);
     }
 
     /**

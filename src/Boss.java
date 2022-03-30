@@ -10,13 +10,18 @@ import java.util.List;
  * @version 1.0
  */
 public class Boss {
+    /** Variables from parsed from command line arguments */
     private final int WORKER_COUNT, WORKER_TIME,
             LORRY_CAP, LORRY_TIME, FERRY_CAP;
+    /** Array of Threads. One for each Worker */
     private final Thread[] W_THREADS;
+    /** Workers that are Mining */
     private final Worker[] WORKERS;
+    /** Mine the Boss is in */
     private final Mine MINE;
-
+    /** List of all mining blocks. Integer is amount of resources */
     private List<Integer> miningBlocks;
+    /** Space for regex splitting */
     private final String SPACE = " ";
 
     /**
@@ -57,15 +62,13 @@ public class Boss {
         String[] tokens;
         String line;
 
-//        System.out.println("Boss - reading file.");
-        while(( line = br.readLine() ) != null){
+        while( ( line = br.readLine() ) != null){
             tokens = line.split(SPACE);
             for(String token: tokens) result.add(token.length());
         }
         result.removeIf(e -> e == 0);
 
         try {
-//            System.out.println("Boss - closing file");
             br.close();
         }
         catch (IOException e) {
@@ -91,11 +94,10 @@ public class Boss {
      */
     public void planOutWork() {
         System.out.println("Boss - making Workers");
-        Lorry tmp;
+        Lorry tmp = MINE.getLorryBoss().getLorry();
 
         for(int i = 0; i < WORKER_COUNT; i++) {
             WORKERS[i] = new Worker("Worker" + i, WORKER_TIME, MINE);
-            tmp = MINE.getLorryBoss().getLorry();
             WORKERS[i].setLorry(tmp);
 
             W_THREADS[i] = new Thread(WORKERS[i]);
@@ -123,9 +125,9 @@ public class Boss {
      * @return number of resources in a block to be mined.
      */
     public synchronized int getWork(String workerName) {
+        System.out.println(workerName + " - asking for work");
         int work = 0;
 
-        System.out.println(workerName + " - asking for work");
         if(!miningBlocks.isEmpty()) {
             work = miningBlocks.get(0);
             miningBlocks.remove(0);

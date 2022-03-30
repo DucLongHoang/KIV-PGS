@@ -7,11 +7,17 @@ import java.util.Random;
  * @version 1.0
  */
 public class Worker implements Runnable{
+    /** Name of Worker */
     private final String NAME;
+    /** Mine the Worker is in */
     private final Mine MINE;
+    /** Reference to a Random generator */
     private final Random R;
+    /** MAx speed of mining one resource */
     private final int SPEED;
+    /** Reference to Lorry */
     private Lorry lorry;
+    /** Total number of resources mined */
     private int resources;
 
     /**
@@ -28,7 +34,8 @@ public class Worker implements Runnable{
         this.resources = 0;
     }
     /**
-     *
+     * Method makes the Worker ask for work and once the resources are mined,
+     * he fills the Lorry with them. Worker works as long as he has work from his Boss
      */
     @Override
     public void run() {

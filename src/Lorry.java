@@ -8,12 +8,19 @@ import java.util.Random;
  * @version 1.0
  */
 public class Lorry implements Runnable{
+    /** Mine the Lorry is in */
     private final Mine MINE;
+    /** Ferry where the Lorry will go to */
     private final Ferry FERRY;
+    /** Reference to a Random generator */
     private final Random R;
+    /** Name of the Lorry */
     private final String NAME;
+    /** Capacity of the Lorry and max time of one journey */
     private final int CAPACITY, TIME;
+    /** State of the Lorry */
     private LorryState lorryState;
+    /** Current capacity of Lorry. Never higher than CAPACITY */
     private int currentCap;
 
     /**
@@ -34,7 +41,10 @@ public class Lorry implements Runnable{
     }
 
     /**
-     *
+     * Method is called once the Lorry is fully loaded with resources.
+     * Once woken up, the Lorry goes to the Ferry where it waits for other Lorries.
+     * When the capacity of the Ferry is full, it will transport all Lorries.
+     * Finally the Lorry makes another journey to the final destination.
      */
     @Override
     public void run() {
@@ -93,6 +103,7 @@ public class Lorry implements Runnable{
     }
 
     /**
+     * Critical section of the app!
      * Setter for lorryState
      * @param lorryState LorryState to be set to
      */
@@ -101,6 +112,7 @@ public class Lorry implements Runnable{
     }
 
     /**
+     * Critical section of the app!
      * Getter for currentCap
      * @return total amount of resources on Lorry
      */
