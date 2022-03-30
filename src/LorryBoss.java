@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * LorryBoss class - coordinates all Lorries and gives them to Workers ad-hoc
  * @author Long
@@ -6,9 +9,10 @@
 public class LorryBoss {
     private final Mine MINE;
     private final Ferry FERRY;
-    private final int LORRY_COUNT;
-    private final Thread[] L_THREADS;
-    private final Lorry[] LORRIES;
+    private final List<Thread> L_THREADS;
+    private final List<Lorry> LORRIES;
+    private final int LORRY_CAP, LORRY_TIME;
+    private int lorryCounter;
 
     /**
      * Constructor for LorryBoss
@@ -18,15 +22,14 @@ public class LorryBoss {
         Boss boss = mine.getBoss();
         this.MINE = mine;
         this.FERRY = new Ferry(boss.getFerryCap());
-        this.LORRY_COUNT = boss.getLorryCount() + 1;
-        this.L_THREADS = new Thread[LORRY_COUNT];
-        this.LORRIES = new Lorry[LORRY_COUNT];
+        this.L_THREADS = new ArrayList<>();
+        this.LORRIES = new ArrayList<>();
 
-        for(int i = 0; i < LORRY_COUNT; i++) {
-            LORRIES[i] = (new Lorry("Lorry" + i, boss.getLorryCap(),
-                    boss.getLorryTime(), FERRY, MINE));
-            L_THREADS[i] = (new Thread(LORRIES[i]));
-        }
+        this.LORRY_CAP = boss.getLorryCap();
+        this.LORRY_TIME = boss.getLorryTime();
+        this.lorryCounter = 0;
+
+        this.prepareNewLorry();
     }
 
     /**
@@ -35,25 +38,18 @@ public class LorryBoss {
      * @return Lorry to be filled with resources
      */
     public synchronized Lorry getLorry() {
-        for(Lorry l : LORRIES) {
-            if(l.getLorryState() == LorryState.NOT_FULL) return l;
-        }
-        System.out.println("LorryBoss - no more Lorries to give out");
-        return null;
+        return LORRIES.get(lorryCounter);
     }
 
     /**
      * Critical section of app!
      * Method starts the Lorry and sends it to the Ferry
      */
-    public synchronized void startLorry() {
-        for(int i = 0; i < LORRY_COUNT; i++) {
-            if(LORRIES[i].getLorryState() == LorryState.FULL) {
-                LORRIES[i].setLorryState(LorryState.TO_FERRY);
-                L_THREADS[i].start();
-                return;
-            }
-        }
+    private synchronized void startLorry(boolean prepareNewLorry) {
+        L_THREADS.get(lorryCounter).start();
+        lorryCounter++;
+
+        if(prepareNewLorry) prepareNewLorry();
     }
 
     /**
@@ -61,8 +57,8 @@ public class LorryBoss {
      * Method changes Lorry references of all Workers
      */
     public synchronized void changeLorryForWorkers() {
-        this.startLorry();
-        System.out.println("LorryBoss - changing Lorry for all Workers");
+        this.startLorry(true);
+        System.out.println("LorryBoss - getting new Lorry" + lorryCounter + " for all Workers");
         for(Worker w: MINE.getBoss().getWorkers()) {
             w.setLorry(this.getLorry());
         }
@@ -73,10 +69,11 @@ public class LorryBoss {
      */
     public void wrapUpWork() {
         System.out.println("LorryBoss - waiting for Lorries to end");
-        for (int i = 0; i < LORRY_COUNT; i++) {
+        this.startLorry(false);
+        for (int i = 0; i < lorryCounter; i++) {
             try {
-                L_THREADS[i].join();
-                System.out.println("\t" + LORRIES[i].getName() + " - ending job");
+                L_THREADS.get(i).join();
+                System.out.println("\t" + LORRIES.get(i).getName() + " - ending job");
             }
             catch (InterruptedException e) {
                 e.printStackTrace();
@@ -85,10 +82,19 @@ public class LorryBoss {
     }
 
     /**
+     * Method creates a new Lorry object to be available
+     */
+    private synchronized void prepareNewLorry() {
+        Lorry tmp = new Lorry("Lorry" + lorryCounter, LORRY_CAP, LORRY_TIME, FERRY, MINE);
+        LORRIES.add(tmp);
+        L_THREADS.add(new Thread(tmp));
+    }
+
+    /**
      * Getter for LORRIES
      * @return array of Lorries
      */
-    public Lorry[] getLorries() {
+    public List<Lorry> getLorries() {
         return LORRIES;
     }
 }

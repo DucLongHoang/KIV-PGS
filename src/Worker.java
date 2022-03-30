@@ -41,7 +41,6 @@ public class Worker implements Runnable{
                 try {
                     workingTime = R.nextInt(SPEED);
                     Thread.sleep(workingTime);
-//                    System.out.println("\t" + NAME + " - mining time: " + workingTime);
                 }
                 catch (InterruptedException e) {
                     e.printStackTrace();
@@ -52,14 +51,12 @@ public class Worker implements Runnable{
 
             /* --- Start filling Lorry --- */
             while(work > 0) {
-                while(lorry != null && !lorry.fillLorry(NAME)) {
-
-                }
                 try {
-                    work--;
-                    Thread.sleep(10);     // Loading one resource on Lorry takes 1s
-                }
-                catch (InterruptedException e) {
+                    if(lorry.fillLorry(NAME)) {
+                        Thread.sleep(10);     // Loading one resource on Lorry takes 1s
+                        work--;
+                    }
+                } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }

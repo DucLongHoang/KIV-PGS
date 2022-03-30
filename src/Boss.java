@@ -10,7 +10,7 @@ import java.util.List;
  * @version 1.0
  */
 public class Boss {
-    private final int WORKER_COUNT, WORKER_TIME, LORRY_COUNT,
+    private final int WORKER_COUNT, WORKER_TIME,
             LORRY_CAP, LORRY_TIME, FERRY_CAP;
     private final Thread[] W_THREADS;
     private final Worker[] WORKERS;
@@ -41,7 +41,6 @@ public class Boss {
         this.W_THREADS = new Thread[WORKER_COUNT];
         this.WORKERS = new Worker[WORKER_COUNT];
 
-        this.LORRY_COUNT = (miningBlocks.stream().mapToInt(e -> e).sum() / LORRY_CAP);
         this.MINE = mine;
 
         printMineAnalysis();
@@ -93,6 +92,7 @@ public class Boss {
     public void planOutWork() {
         System.out.println("Boss - making Workers");
         Lorry tmp;
+
         for(int i = 0; i < WORKER_COUNT; i++) {
             WORKERS[i] = new Worker("Worker" + i, WORKER_TIME, MINE);
             tmp = MINE.getLorryBoss().getLorry();
@@ -113,8 +113,6 @@ public class Boss {
                 e.printStackTrace();
             }
         }
-
-        System.out.println("Boss - printing result");
     }
 
     /**
@@ -136,14 +134,6 @@ public class Boss {
 
         System.out.println(workerName + " - there is no more work");
         return work;
-    }
-
-    /**
-     * Getter for LORRY_COUNT
-     * @return number of lorries needed to transport all resources
-     */
-    public int getLorryCount() {
-        return LORRY_COUNT;
     }
 
     /**

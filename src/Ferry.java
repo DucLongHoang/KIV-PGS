@@ -19,10 +19,10 @@ public class Ferry {
         this.wait = true;
     }
 
-    public synchronized void synchronize(Lorry lorry) {
-        lorry.setLorryState(LorryState.ON_FERRY);
-        System.out.println(lorry.getName() + " - on Ferry");
-
+    /**
+     * Method makes Lorries wait until the Ferry is full
+     */
+    public synchronized void synchronize() {
         while(!wait) {
             try {
                 wait();

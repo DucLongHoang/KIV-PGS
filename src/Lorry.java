@@ -38,11 +38,16 @@ public class Lorry implements Runnable{
      */
     @Override
     public void run() {
+        int drivingTime;
         try {
+            lorryState = LorryState.TO_FERRY;
             System.out.println(NAME + " - going to the Ferry");
-            int drivingTime = R.nextInt(TIME);
+            drivingTime = R.nextInt(TIME);
             Thread.sleep(drivingTime);
-            FERRY.synchronize(this);
+
+            lorryState = LorryState.ON_FERRY;
+            System.out.println(NAME + " - on Ferry, waiting for other Lorries");
+            FERRY.synchronize();
 
             lorryState = LorryState.TO_DESTINATION;
             System.out.println(NAME + " - going to the destination");
@@ -59,23 +64,23 @@ public class Lorry implements Runnable{
 
     /**
      * Critical section of the app!
-     * Method fills the Lorry if possible
-     * @param workerName Worker that tries to fill the Lorry
-     * @return true if Lorry can be filled otherwise false
+     * Method tries to fill the Lorry.
+     * @param workerName Worker that fills the Lorry
+     * @return true if filling successful otherwise false
      */
     public synchronized boolean fillLorry(String workerName) {
+        // preventing a weird case when the Worker tries to fill a Lorry that is already gone!
         if(lorryState != LorryState.NOT_FULL) return false;
-        if(currentCap++ < CAPACITY){
-            System.out.println(workerName + " - adding one resource to " + NAME);
-            if(currentCap == CAPACITY) {
-                System.out.println(workerName + " - " + NAME + " is full. Sending it to the Ferry");
-                this.lorryState = LorryState.FULL;
-                this.MINE.getLorryBoss().changeLorryForWorkers();
-                return false;
-            }
-            return true;
+
+        System.out.println(workerName + " - adding one resource to " + NAME);
+        currentCap++;
+
+        if(currentCap == CAPACITY) {
+            this.lorryState = LorryState.FULL;
+            System.out.println(workerName + " - " + NAME + " is full. Sending it to the Ferry");
+            this.MINE.getLorryBoss().changeLorryForWorkers();
         }
-        return false;
+        return true;
     }
 
     /**
@@ -99,7 +104,7 @@ public class Lorry implements Runnable{
      * Getter for currentCap
      * @return total amount of resources on Lorry
      */
-    public int getCurrentCap() {
+    public synchronized int getCurrentCap() {
         return currentCap;
     }
 
