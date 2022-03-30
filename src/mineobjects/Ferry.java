@@ -1,9 +1,16 @@
+package mineobjects;
+
+import logging.Log;
+import logging.Logger;
+
 /**
  * Ferry class - once Lorry count equals CAPACITY it will leave to drop them off
  * @author Long
  * @version 1.0
  */
 public class Ferry {
+    /** Reference to Logger to log all voyages */
+    private final Logger LOGGER;
     /** Capacity for Lorries */
     private final int CAPACITY;
     /** A counter for Lorry and number of voyages */
@@ -15,8 +22,9 @@ public class Ferry {
      * Constructor for Ferry
      * @param capacity how many Lorries the Ferry can take
      */
-    public Ferry(int capacity) {
+    public Ferry(int capacity, Logger logger) {
         this.CAPACITY = capacity;
+        this.LOGGER = logger;
         this.lorryCounter = 0;
         this.voyageCounter = 0;
         this.wait = true;
@@ -38,6 +46,7 @@ public class Ferry {
         lorryCounter++;
 
         if(lorryCounter == CAPACITY) {
+            LOGGER.log(new Log(this.getClass().getSimpleName(), "Voyage start"));
             System.out.println("Ferry - starting voyage " + voyageCounter++);
             wait = false;
             notifyAll();

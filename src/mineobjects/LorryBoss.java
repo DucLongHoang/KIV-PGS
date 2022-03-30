@@ -1,3 +1,5 @@
+package mineobjects;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +29,7 @@ public class LorryBoss {
     public LorryBoss(Mine mine) {
         Boss boss = mine.getBoss();
         this.MINE = mine;
-        this.FERRY = new Ferry(boss.getFerryCap());
+        this.FERRY = new Ferry(boss.getFerryCap(), MINE.getLogger());
         this.L_THREADS = new ArrayList<>();
         this.LORRIES = new ArrayList<>();
 

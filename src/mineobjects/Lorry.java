@@ -1,3 +1,7 @@
+package mineobjects;
+
+import logging.Log;
+
 import java.util.Random;
 
 /**
@@ -55,6 +59,7 @@ public class Lorry implements Runnable{
             drivingTime = R.nextInt(TIME);
             Thread.sleep(drivingTime);
 
+            MINE.getLogger().log(new Log(this.getClass().getSimpleName(), "LorryState.ON_FERRY"));
             lorryState = LorryState.ON_FERRY;
             System.out.println(NAME + " - on Ferry, waiting for other Lorries");
             FERRY.synchronize();
@@ -64,6 +69,7 @@ public class Lorry implements Runnable{
             drivingTime = R.nextInt(TIME);
             Thread.sleep(drivingTime);
 
+            MINE.getLogger().log(new Log(this.getClass().getSimpleName(), "LorryState.IN_DESTINATION"));
             lorryState = LorryState.IN_DESTINATION;
             System.out.println(NAME + " - arrived in destination");
         }
@@ -86,6 +92,8 @@ public class Lorry implements Runnable{
         currentCap++;
 
         if(currentCap == CAPACITY) {
+            MINE.getLogger().log(new Log(this.getClass().getSimpleName(), "LorryState.FULL"));
+
             this.lorryState = LorryState.FULL;
             System.out.println(workerName + " - " + NAME + " is full. Sending it to the Ferry");
             this.MINE.getLorryBoss().changeLorryForWorkers();

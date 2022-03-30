@@ -1,3 +1,5 @@
+package mineobjects;
+
 /**
  * LorryState enum class - all possible states of Lorry object.
  * Used primarily in early stages of development

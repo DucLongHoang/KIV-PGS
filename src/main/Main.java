@@ -1,3 +1,10 @@
+package main;
+
+import logging.Logger;
+import mineobjects.Lorry;
+import mineobjects.LorryState;
+import mineobjects.Mine;
+
 /**
  * Main class
  * @author Long
@@ -12,7 +19,9 @@ public class Main {
         System.out.println();
         System.out.println("\nMain - starting main thread.");
 
-        Mine mine = new Mine(args);
+        Parser parser = new Parser(args);
+        Logger logger = new Logger(parser.getOutputFile());
+        Mine mine = new Mine(parser, logger);
         mine.executeSpecialMiningOperation();
 
         // fancy lambda + stream
@@ -27,6 +36,7 @@ public class Main {
         }
 
         System.out.println("Total resources transported is: " + total);
+        logger.writeLogsToFile();
         System.out.println("Main - ending main thread");
     }
 }

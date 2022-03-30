@@ -1,3 +1,8 @@
+package mineobjects;
+
+import logging.Logger;
+import main.Parser;
+
 /**
  * Mine class - holds references for Boss and LorryBoss objects
  * @author Long
@@ -8,13 +13,20 @@ public class Mine {
     private final Boss BOSS;
     /** LorryBoss of the Mine */
     private final LorryBoss LORRYBOSS;
+    /** Parser reference */
+    private final Parser PARSER;
+    /** Logger of the whole app */
+    private final Logger LOGGER;
 
     /**
      * Constructor for Mine
-     * @param args arguments from command line
+     * @param parser Parser reference to give to the Boss
+     * @param logger Logger reference so all Objects can log
      */
-    public Mine(String[] args) {
-        this.BOSS = new Boss(new Parser(args), this);
+    public Mine(Parser parser, Logger logger) {
+        this.PARSER = parser;
+        this.LOGGER = logger;
+        this.BOSS = new Boss(PARSER, this);
         this.LORRYBOSS = new LorryBoss(this);
     }
 
@@ -40,5 +52,13 @@ public class Mine {
      */
     public LorryBoss getLorryBoss() {
         return LORRYBOSS;
+    }
+
+    /**
+     * Getter for LOGGER
+     * @return Logger reference
+     */
+    public Logger getLogger() {
+        return LOGGER;
     }
 }

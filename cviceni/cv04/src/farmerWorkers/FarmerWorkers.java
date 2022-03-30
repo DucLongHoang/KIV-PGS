@@ -10,7 +10,7 @@ public class FarmerWorkers {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-		System.out.println("Main - spoustim farmare.");
+		System.out.println("main.Main - spoustim farmare.");
 		Farmer farmer = new Farmer(INPUT_FILE_NAME);
 		
 		farmer.start();
@@ -21,6 +21,6 @@ public class FarmerWorkers {
 			e.printStackTrace();
 		}
 
-		System.out.println("Main - konci.");
+		System.out.println("main.Main - konci.");
 	}
 }

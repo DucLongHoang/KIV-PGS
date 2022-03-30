@@ -1,3 +1,8 @@
+package mineobjects;
+
+import logging.Log;
+import main.Parser;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -26,7 +31,7 @@ public class Boss {
 
     /**
      * Constructor for Boss
-     * @param parser Parser object to get data from
+     * @param parser main.Parser object to get data from
      */
     public Boss(Parser parser, Mine mine) {
         try {
@@ -84,6 +89,10 @@ public class Boss {
     private void printMineAnalysis() {
         int numOfBlocks = miningBlocks.size();
         int numOfResources = miningBlocks.stream().mapToInt(e -> e).sum();
+
+        MINE.getLogger().log(new Log(this.getClass().getSimpleName(),
+                "Blocks: " + numOfBlocks + ", resources: " + numOfResources));
+
         System.out.println("Mine analysis:");
         System.out.println("\tTotal number of blocks to be mined: " + numOfBlocks);
         System.out.println("\tTotal number of resources to be mined: " + numOfResources);

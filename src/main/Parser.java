@@ -1,3 +1,5 @@
+package main;
+
 /**
  * Parser class - parses args input and input file
  */

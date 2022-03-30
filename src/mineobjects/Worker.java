@@ -1,3 +1,7 @@
+package mineobjects;
+
+import logging.Log;
+
 import java.util.Random;
 
 /**
@@ -39,20 +43,28 @@ public class Worker implements Runnable{
      */
     @Override
     public void run() {
-        int work, workingTime;
+        int work, workingTime, blockTime;
         while(( work = MINE.getBoss().getWork(this.NAME) ) != 0) {
 
             /* --- Start mining --- */
+            blockTime = 0;
             System.out.println(NAME + " - mining " + work + " resources");
+
             for (int i = 0; i < work; i++, resources++) {
                 try {
                     workingTime = R.nextInt(SPEED);
+                    blockTime += workingTime;
                     Thread.sleep(workingTime);
+
+                    MINE.getLogger().log(new Log(this.getClass().getSimpleName(),
+                            "Resource mining time: " + workingTime));
                 }
                 catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
+            MINE.getLogger().log(new Log(this.getClass().getSimpleName(),
+                    "Block mining time: " + blockTime));
             /* --- End mining --- */
 
 
