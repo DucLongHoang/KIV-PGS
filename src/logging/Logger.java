@@ -2,6 +2,7 @@ package logging;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -65,8 +66,9 @@ public class Logger {
      */
     public void writeLogsToFile(String header) {
         try {
-            FileWriter fw = new FileWriter(OUTPUT_FILE.toString());
-            fw.write(header);
+            PrintWriter pw = new PrintWriter(OUTPUT_FILE.toString());
+            pw.println(header);
+            pw.close();
 
             Files.write(OUTPUT_FILE, this.getFormattedLogs(),
                     StandardCharsets.UTF_8, StandardOpenOption.WRITE,
