@@ -17,6 +17,8 @@ public class Ferry {
     private int lorryCounter, voyageCounter;
     /** Boolean so that synchronization works as intended */
     private boolean wait;
+    /** Time of first Lorry arriving */
+    private long startTime;
 
     /**
      * Constructor for Ferry
@@ -45,8 +47,13 @@ public class Ferry {
         }
         lorryCounter++;
 
+        if(lorryCounter == 1) {     // measure time since first Lorry
+            startTime = System.currentTimeMillis();
+        }
+
         if(lorryCounter == CAPACITY) {
-            LOGGER.log(new Log(this.getClass().getSimpleName(), "Voyage start"));
+            long waitTime = System.currentTimeMillis() - startTime;
+            LOGGER.log(new Log(this.getClass().getSimpleName(), "Voyage;" + waitTime));
             System.out.println("Ferry - starting voyage " + voyageCounter++);
             wait = false;
             notifyAll();

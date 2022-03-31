@@ -7,7 +7,35 @@ package mineobjects;
  * @version 1.0
  */
 public enum LorryState {
-    NOT_FULL, FULL,
-    TO_FERRY, ON_FERRY,
-    TO_DESTINATION, IN_DESTINATION
+    EMPTY(0), NOT_FULL(1), FULL(2),
+    TO_FERRY(3), ON_FERRY(4),
+    TO_DESTINATION(5), IN_DESTINATION(6);
+
+    /** Value of enum */
+    private final int VALUE;
+
+    /**
+     * Constructor for enum
+     * @param i value of enum
+     */
+    LorryState(int i) {
+        this.VALUE = i;
+    }
+
+    /**
+     * Getter for VALUE
+     * @return value of enum
+     */
+    public int getValue() {
+        return VALUE;
+    }
+
+    /**
+     * To String method
+     * @return String representation of enum
+     */
+    @Override
+    public String toString() {
+        return this.name();
+    }
 }

@@ -15,7 +15,7 @@ import java.util.List;
  * @version 1.0
  */
 public class Boss {
-    /** Variables from parsed from command line arguments */
+    /** Variables parsed from command line arguments */
     private final int WORKER_COUNT, WORKER_TIME,
             LORRY_CAP, LORRY_TIME, FERRY_CAP;
     /** Array of Threads. One for each Worker */
@@ -31,7 +31,7 @@ public class Boss {
 
     /**
      * Constructor for Boss
-     * @param parser main.Parser object to get data from
+     * @param parser Parser object to get data from
      */
     public Boss(Parser parser, Mine mine) {
         try {
@@ -91,18 +91,20 @@ public class Boss {
         int numOfResources = miningBlocks.stream().mapToInt(e -> e).sum();
 
         MINE.getLogger().log(new Log(this.getClass().getSimpleName(),
-                "Blocks: " + numOfBlocks + ", resources: " + numOfResources));
+                "Blocks:" + numOfBlocks + ":resources:" + numOfResources +
+                "," + 0));
 
         System.out.println("Mine analysis:");
         System.out.println("\tTotal number of blocks to be mined: " + numOfBlocks);
         System.out.println("\tTotal number of resources to be mined: " + numOfResources);
+        System.out.println();
     }
 
     /**
      * Method initializes Workers and makes them work. Also makes them stop working.
      */
     public void planOutWork() {
-        System.out.println("Boss - making Workers");
+//        System.out.println("Boss - making Workers");
         Lorry tmp = MINE.getLorryBoss().getLorry();
 
         for(int i = 0; i < WORKER_COUNT; i++) {
@@ -110,15 +112,15 @@ public class Boss {
             WORKERS[i].setLorry(tmp);
 
             W_THREADS[i] = new Thread(WORKERS[i]);
-            System.out.println("Boss - making " + WORKERS[i].getName());
+//            System.out.println("Boss - making " + WORKERS[i].getName());
             W_THREADS[i].start();
         }
 
-        System.out.println("Boss - waiting for Workers to end");
+//        System.out.println("Boss - waiting for Workers to end");
         for (int i = 0; i < WORKER_COUNT; i++) {
             try {
                 W_THREADS[i].join();
-                System.out.println("\t" + WORKERS[i].getName() + " - ending job");
+//                System.out.println("\t" + WORKERS[i].getName() + " - ending job");
             }
             catch (InterruptedException e) {
                 e.printStackTrace();
@@ -134,7 +136,7 @@ public class Boss {
      * @return number of resources in a block to be mined.
      */
     public synchronized int getWork(String workerName) {
-        System.out.println(workerName + " - asking for work");
+//        System.out.println(workerName + " - asking for work");
         int work = 0;
 
         if(!miningBlocks.isEmpty()) {
@@ -143,7 +145,7 @@ public class Boss {
             return work;
         }
 
-        System.out.println(workerName + " - there is no more work");
+//        System.out.println(workerName + " - there is no more work");
         return work;
     }
 

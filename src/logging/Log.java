@@ -33,7 +33,7 @@ public class Log implements Comparable<Log>{
      */
     @Override
     public String toString() {
-        return TIME + ";" + ROLE + ";" + THREAD_NUM + ";" + DESCRIPTION;
+        return TIME + "," + ROLE + "," + THREAD_NUM + "," + DESCRIPTION;
     }
 
     /**

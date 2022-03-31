@@ -1,5 +1,6 @@
 package logging;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -58,11 +59,18 @@ public class Logger {
         return result;
     }
 
-    public void writeLogsToFile() {
+    /**
+     * Method writes all Logs into an output file
+     * @param header of the file that will be created
+     */
+    public void writeLogsToFile(String header) {
         try {
+            FileWriter fw = new FileWriter(OUTPUT_FILE.toString());
+            fw.write(header);
+
             Files.write(OUTPUT_FILE, this.getFormattedLogs(),
                     StandardCharsets.UTF_8, StandardOpenOption.WRITE,
-                    StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+                    StandardOpenOption.CREATE, StandardOpenOption.APPEND);
         }
         catch (IOException e) {
             System.out.println("Failed to create output file!!!");

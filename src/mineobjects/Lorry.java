@@ -26,6 +26,8 @@ public class Lorry implements Runnable{
     private LorryState lorryState;
     /** Current capacity of Lorry. Never higher than CAPACITY */
     private int currentCap;
+    /** Time stamp of when the Lorry started being filled */
+    private long startTime;
 
     /**
      * Constructor for Lorry
@@ -41,7 +43,7 @@ public class Lorry implements Runnable{
         this.FERRY = ferry;
         this.MINE = mine;
         this.currentCap = 0;
-        this.lorryState = LorryState.NOT_FULL;
+        this.lorryState = LorryState.EMPTY;
     }
 
     /**
@@ -55,23 +57,23 @@ public class Lorry implements Runnable{
         int drivingTime;
         try {
             lorryState = LorryState.TO_FERRY;
-            System.out.println(NAME + " - going to the Ferry");
+//            System.out.println(NAME + " - going to the Ferry");
             drivingTime = R.nextInt(TIME);
             Thread.sleep(drivingTime);
 
-            MINE.getLogger().log(new Log(this.getClass().getSimpleName(), "LorryState.ON_FERRY"));
             lorryState = LorryState.ON_FERRY;
-            System.out.println(NAME + " - on Ferry, waiting for other Lorries");
+            MINE.getLogger().log(new Log(this.getClass().getSimpleName(), lorryState + "," + drivingTime));
+//            System.out.println(NAME + " - on Ferry, waiting for other Lorries");
             FERRY.synchronize();
 
             lorryState = LorryState.TO_DESTINATION;
-            System.out.println(NAME + " - going to the destination");
+//            System.out.println(NAME + " - going to the destination");
             drivingTime = R.nextInt(TIME);
             Thread.sleep(drivingTime);
 
-            MINE.getLogger().log(new Log(this.getClass().getSimpleName(), "LorryState.IN_DESTINATION"));
             lorryState = LorryState.IN_DESTINATION;
-            System.out.println(NAME + " - arrived in destination");
+            MINE.getLogger().log(new Log(this.getClass().getSimpleName(), lorryState + "," + drivingTime));
+//            System.out.println(NAME + " - arrived in destination");
         }
         catch (InterruptedException e) {
             e.printStackTrace();
@@ -86,16 +88,25 @@ public class Lorry implements Runnable{
      */
     public synchronized boolean fillLorry(String workerName) {
         // preventing a weird case when the Worker tries to fill a Lorry that is already gone!
-        if(lorryState != LorryState.NOT_FULL) return false;
+        if(lorryState.getValue() > LorryState.NOT_FULL.getValue()) {
+            return false;
+        }
+        // start measuring time after adding first resource
+        if(lorryState == LorryState.EMPTY) {
+            this.startTime = System.currentTimeMillis();
+            lorryState = LorryState.NOT_FULL;
+        }
 
-        System.out.println(workerName + " - adding one resource to " + NAME);
+//        System.out.println(workerName + " - adding one resource to " + NAME);
         currentCap++;
 
         if(currentCap == CAPACITY) {
-            MINE.getLogger().log(new Log(this.getClass().getSimpleName(), "LorryState.FULL"));
-
+            long fillTime = System.currentTimeMillis() - startTime;
             this.lorryState = LorryState.FULL;
-            System.out.println(workerName + " - " + NAME + " is full. Sending it to the Ferry");
+            String description = lorryState + "," + fillTime;
+
+            MINE.getLogger().log(new Log(this.getClass().getSimpleName(), description));
+//            System.out.println(workerName + " - " + NAME + " is full. Sending it to the Ferry");
             this.MINE.getLorryBoss().changeLorryForWorkers();
         }
         return true;

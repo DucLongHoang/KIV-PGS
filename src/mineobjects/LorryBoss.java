@@ -67,7 +67,7 @@ public class LorryBoss {
      */
     public synchronized void changeLorryForWorkers() {
         this.startLorry(true);
-        System.out.println("LorryBoss - getting new Lorry" + lorryCounter + " for all Workers");
+//        System.out.println("LorryBoss - getting new Lorry" + lorryCounter + " for all Workers");
         for(Worker w: MINE.getBoss().getWorkers()) {
             w.setLorry(this.getLorry());
         }
@@ -77,13 +77,13 @@ public class LorryBoss {
      * Method tells the Lorry Threads to stop
      */
     public void wrapUpWork() {
-        System.out.println("LorryBoss - waiting for Lorries to end");
+//        System.out.println("LorryBoss - waiting for Lorries to end");
         this.startLorry(false);     // forcing last Lorry to start even if not full
 
         for (int i = 0; i < lorryCounter; i++) {
             try {
                 L_THREADS.get(i).join();
-                System.out.println("\t" + LORRIES.get(i).getName() + " - ending job");
+//                System.out.println("\t" + LORRIES.get(i).getName() + " - ending job");
             }
             catch (InterruptedException e) {
                 e.printStackTrace();

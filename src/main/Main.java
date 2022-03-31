@@ -4,6 +4,7 @@ import logging.Logger;
 import mineobjects.Lorry;
 import mineobjects.LorryState;
 import mineobjects.Mine;
+import mineobjects.Worker;
 
 /**
  * Main class
@@ -17,7 +18,7 @@ public class Main {
      */
     public static void main(String[] args) {
         System.out.println();
-        System.out.println("\nMain - starting main thread.");
+//        System.out.println("\nMain - starting main thread.");
 
         Parser parser = new Parser(args);
         Logger logger = new Logger(parser.getOutputFile());
@@ -31,12 +32,20 @@ public class Main {
                 mapToInt(Lorry::getCurrentCap).
                 sum();
 
+        System.out.println();
         for(Lorry l : mine.getLorryBoss().getLorries()) {
-            System.out.println(l.getName() + " has " + l.getCurrentCap());
+            System.out.println(l.getName() + " has " + l.getCurrentCap() + " resources");
         }
 
+        System.out.println();
+        for(Worker w: mine.getBoss().getWorkers()) {
+            System.out.println(w.getName() + " - resources mined: " + w.getResources());
+        }
+
+        System.out.println();
         System.out.println("Total resources transported is: " + total);
-        logger.writeLogsToFile();
-        System.out.println("Main - ending main thread");
+        logger.writeLogsToFile("timestamp,role,threadId,description,duration");
+
+//        System.out.println("Main - ending main thread");
     }
 }

@@ -48,7 +48,7 @@ public class Worker implements Runnable{
 
             /* --- Start mining --- */
             blockTime = 0;
-            System.out.println(NAME + " - mining " + work + " resources");
+//            System.out.println(NAME + " - mining " + work + " resources");
 
             for (int i = 0; i < work; i++, resources++) {
                 try {
@@ -57,14 +57,14 @@ public class Worker implements Runnable{
                     Thread.sleep(workingTime);
 
                     MINE.getLogger().log(new Log(this.getClass().getSimpleName(),
-                            "Resource mining time: " + workingTime));
+                            "Resource," + workingTime));
                 }
                 catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
             MINE.getLogger().log(new Log(this.getClass().getSimpleName(),
-                    "Block mining time: " + blockTime));
+                    "Block," + blockTime));
             /* --- End mining --- */
 
 
@@ -82,7 +82,7 @@ public class Worker implements Runnable{
             /* --- End filling Lorry --- */
 
         }
-        System.out.println(NAME + " - finishing. Total resources mined: " + resources);
+//        System.out.println(NAME + " - finishing. Total resources mined: " + resources);
     }
 
     /**
@@ -99,5 +99,13 @@ public class Worker implements Runnable{
      */
     public void setLorry(Lorry lorry) {
         this.lorry = lorry;
+    }
+
+    /**
+     * Getter for resources
+     * @return total resources mined
+     */
+    public int getResources() {
+        return resources;
     }
 }
