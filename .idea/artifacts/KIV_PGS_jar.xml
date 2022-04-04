@@ -2,9 +2,6 @@
   <artifact type="jar" name="KIV-PGS:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/KIV_PGS_jar</output-path>
     <root id="archive" name="KIV-PGS.jar">
-      <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/submission/src/META-INF/MANIFEST.MF" />
-      </element>
       <element id="module-output" name="KIV-PGS" />
       <element id="library" level="project" name="lib" />
     </root>

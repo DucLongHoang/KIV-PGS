@@ -22,9 +22,11 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
-# Word documentation and output files
+# Word documentation, some text files, svg files and output files
 *.docx
 *.csv
+/test_input.txt
+*.svg
 
 # Submission folder
 /submission

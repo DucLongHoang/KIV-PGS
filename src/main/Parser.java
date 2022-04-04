@@ -6,8 +6,8 @@ package main;
 public class Parser {
     /** Values to be parsed and saved from command line arguments */
     private int workerCount, workerTime, lorryCap, lorryTime, ferryCap;
-    /** Paths to the JAR file, input and output files */
-    private String jarPath, inputFile, outputFile;
+    /** Paths to the input and output files */
+    private String inputFile, outputFile;
 
     /**
      * Constructor for Parser
@@ -23,9 +23,8 @@ public class Parser {
      * @param args arguments to be parsed
      */
     private void parseArgs(String[] args) {
-        for(int i = 1; i < args.length; i+=2){
+        for(int i = 0; i < args.length; i+=2){
             switch(args[i].substring(1)){
-                case "jar" -> this.jarPath = args[i + 1];
                 case "i" -> this.inputFile = args[i + 1];
                 case "o" -> this.outputFile = args[i + 1];
                 case "cWorker" -> this.workerCount = Integer.parseInt(args[i + 1]);
@@ -42,7 +41,6 @@ public class Parser {
      */
     public void printArgs() {
         String s = "Input parameters:" +
-                "\n\t-jar = " + this.jarPath +
                 "\n\t-i = " + this.inputFile +
                 "\n\t-o = " + this.outputFile +
                 "\n\t-cWorker = " + this.workerCount +
@@ -92,14 +90,6 @@ public class Parser {
      */
     public int getFerryCap() {
         return ferryCap;
-    }
-
-    /**
-     * Getter for jarPath
-     * @return path to the .jar file
-     */
-    public String getJarPath() {
-        return jarPath;
     }
 
     /**
