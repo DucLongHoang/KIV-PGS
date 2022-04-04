@@ -41,11 +41,10 @@ public class LorryBoss {
     }
 
     /**
-     * Critical section of app!
      * Method returns a Lorry to the worker that is currently in LorryState.NOT_FULL
      * @return Lorry to be filled with resources
      */
-    public synchronized Lorry getLorry() {
+    public Lorry getLorry() {
         return LORRIES.get(lorryCounter);
     }
 
@@ -54,7 +53,7 @@ public class LorryBoss {
      * Method starts the Lorry and sends it to the Ferry
      * @param prepareNewLorry boolean to prepare a new Lorry or not
      */
-    private synchronized void startLorry(boolean prepareNewLorry) {
+    private void startLorry(boolean prepareNewLorry) {
         L_THREADS.get(lorryCounter).start();
         lorryCounter++;
 
@@ -62,10 +61,9 @@ public class LorryBoss {
     }
 
     /**
-     * Critical section of app!
      * Method changes Lorry references of all Workers
      */
-    public synchronized void changeLorryForWorkers() {
+    public void changeLorryForWorkers() {
         this.startLorry(true);
 //        System.out.println("LorryBoss - getting new Lorry" + lorryCounter + " for all Workers");
         for(Worker w: MINE.getBoss().getWorkers()) {
@@ -94,7 +92,7 @@ public class LorryBoss {
     /**
      * Method creates a new Lorry object to be available
      */
-    private synchronized void prepareNewLorry() {
+    private void prepareNewLorry() {
         Lorry tmp = new Lorry("Lorry" + lorryCounter, LORRY_CAP, LORRY_TIME, FERRY, MINE);
         LORRIES.add(tmp);
         L_THREADS.add(new Thread(tmp));

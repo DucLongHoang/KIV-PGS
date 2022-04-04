@@ -1,6 +1,5 @@
 package logging;
 
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
@@ -40,19 +39,10 @@ public class Logger {
     }
 
     /**
-     * Method sorts all Logs according to their natural ordering, which is time
-     */
-    private void sortLogs() {
-
-    }
-
-    /**
      * Method returns a List of Log by their String representation
      * @return List of all Logs in String
      */
     public List<String> getFormattedLogs() {
-        this.sortLogs();
-
         List<String> result = new LinkedList<>();
         for(Log l: ALL_LOGS) {
             result.add(l.toString());
